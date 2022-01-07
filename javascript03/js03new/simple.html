@@ -83,7 +83,7 @@ $("#send").on("click", function(){
     text: $("#text").val()
     }
     const newPostRef = push(dbRef); // データを一意なもの（ユニークなもの）にするための記述
-    // set(newPostRef, msg) // データを保存
+    set(newPostRef, msg) // データを保存
     $("#text").val("");   //送信したらテキストだけ消す
 });
 
