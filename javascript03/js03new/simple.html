@@ -23,8 +23,8 @@
         <textarea id="text" cols="30" rows="10"></textarea><br>
         <div class="button-send">
             <button id="send">送信</button>
-            <button id="sentaku">選択</button>
-            <button id="sakujo">削除</button>
+            <button id="choose">選択</button>
+            <button id="all-clear">全て削除</button>
         </div>
     </div>
 </div>
@@ -56,24 +56,57 @@
         };
 
 
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const db = getDatabase(app); // データベースへの接続
-  const dbRef = ref(db, "chat"); // どのデータベースを参照するか
+// Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app); // データベースへの接続
+    const dbRef = ref(db, "chat"); // どのデータベースを参照するか
+
+
+
+//選択ボタン押したらラジオボタン出現
+　$("#choose").on("click",function(){
+　$(".hide-checkbox").fadeIn(1000);
+});
+
+
+//データ全削除
+$("#all-clear").on("click", function() {
+        remove(dbRef)
+        $("#output").remove();
+    });
 
 
 //送信処理
-  $("#send").on("click", function(){
+$("#send").on("click", function(){
     const msg = {
-      uname: $("#uname").val(),
-      text: $("#text").val()
+    uname: $("#uname").val(),
+    text: $("#text").val()
     }
     const newPostRef = push(dbRef); // データを一意なもの（ユニークなもの）にするための記述
     // set(newPostRef, msg) // データを保存
     $("#text").val("");   //送信したらテキストだけ消す
-  });
+});
 
-  onChildAdded(dbRef, function(data){
+
+
+//送信処理２Enterで送信
+$("#text").on("keydown", function(e){
+    if (e.keyCode == 13) {   //EnterKey=13
+    const msg = {
+        uname: $("#uname").val(),
+        text: $("#text").val()
+    }
+      const newPostRef = push(dbRef); //ユニークKEYを生成
+      set(newPostRef, msg);           //"chat"にユニークKEYをつけてオブジェクトデータを登録
+    　}
+      $("#text").val("");   //送信したらテキストだけ消す
+    
+});
+
+
+
+//表示処理
+onChildAdded(dbRef, function(data){
     const msg = data.val();
     // { uname: "hoge", text: "fugafuga" }
     const key = data.key;
@@ -83,33 +116,20 @@
         h += msg.text;
         h += '</p>';
         $("#output").append(h); //#outputの最後に追加
-  });
-
-
-  //送信処理２Enterで送信
-  $("#text").on("keydown", function(e){
-    if (e.keyCode == 13) {   //EnterKey=13
-      const msg = {
-        uname: $("#uname").val(),
-        text: $("#text").val()
-      }
-      const newPostRef = push(dbRef); //ユニークKEYを生成
-      set(newPostRef, msg);           //"chat"にユニークKEYをつけてオブジェクトデータを登録
-    　}
-      $("#text").val("");   //送信したらテキストだけ消す
-    
-  });
-
-  //削除ボタン押したらラジオボタン出現
-　$("#sentaku").on("click",function(){
-    $(".hide-checkbox").fadeIn(1000);
 });
+
+
+
+
+
 
 //題名フワッと現れる
 
 
 
-  
+
+
+
 </script>
 
 </body>
