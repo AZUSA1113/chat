@@ -1,0 +1,35 @@
+.body{
+    height: 300px;
+    overflow: auto;
+}
+
+.hide-checkbox{
+    display: none;
+}
+
+.message-send{
+    position :fixed;
+    bottom: 0;
+    margin-bottom: 5px;
+}
+
+.button-send{
+    justify-content: center;
+}
+
+.daimei{
+    position: relative;
+    margin-bottom: 0.2rem;
+    padding: 1.5rem 1rem 1rem;
+    background-image:
+        linear-gradient(rgb(232, 211, 154, .5) 0 100%),
+        linear-gradient(#E9A86C 0 100%);
+    background-repeat: no-repeat;
+    background-size: 60px 20px, 100% calc(100% - 0.5rem);
+    background-position: 40% top, bottom;
+    color: white;
+    font-weight: bold;
+    font-size: 26px;
+    width: 200px;
+    text-align: center;
+}
